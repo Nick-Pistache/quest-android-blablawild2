@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class ItinerarySearchActivity extends AppCompatActivity {
 
     public static final String EXTRA_TRIP = "EXTRA_TRIP";
@@ -34,6 +37,12 @@ public class ItinerarySearchActivity extends AppCompatActivity {
                 if (departure.isEmpty() || destination.isEmpty() || date.isEmpty()) {
                     Toast.makeText(ItinerarySearchActivity.this, R.string.fill_all_fields, Toast.LENGTH_SHORT).show();
                 } else {
+                    //add to fire base
+                    TripModel trip = new TripModel(date, departure, destination);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference itineraryRef = database.getReference("trips");
+                    String key = itineraryRef.push().getKey();
+                    itineraryRef.child(key).setValue(trip);
                     Intent intent = new Intent(ItinerarySearchActivity.this, ItineraryListActivity.class);
                     TripModel tripModel = new TripModel(departure, destination, date);
 

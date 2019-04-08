@@ -41,4 +41,8 @@ public class ItineraryModel {
     public int getPrice() {
         return price;
     }
+
+    // Voir constructor
+    public ItineraryModel() {
+    }
 }
