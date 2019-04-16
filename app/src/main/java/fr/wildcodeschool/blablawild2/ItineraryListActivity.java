@@ -4,17 +4,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class ItineraryListActivity extends AppCompatActivity {
 
+    ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itinerary_list);
+
+
 
         TripModel tripModel = getIntent().getParcelableExtra(ItinerarySearchActivity.EXTRA_TRIP);
         this.setTitle(String.format(getString(R.string.departure_to_destination), tripModel.getDeparture(), tripModel.getDestination()));
@@ -35,5 +41,19 @@ public class ItineraryListActivity extends AppCompatActivity {
 
         final ItineraryRecyclerAdapter adapter = new ItineraryRecyclerAdapter(itineraryModels);
         listItineraries.setAdapter(adapter);
+
+        listItineraries.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), listItineraries, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                ItineraryModel itinarires = itineraryModels.get(position);
+                Toast.makeText(getApplicationContext(), itinarires.getDriver() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
     }
 }
